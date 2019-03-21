@@ -32,14 +32,14 @@ def run_version_0_0_1():
     run_sql("""
         CREATE TABLE IF NOT EXISTS `dcmp_dag` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
-          `dag_name` varchar(250) NOT NULL,
+          `dag_name` varchar(100) NOT NULL,
           `version` int(11) NOT NULL,
           `category` varchar(50) NOT NULL,
           `editing` tinyint(1) NOT NULL,
           `editing_user_id` int(11) DEFAULT NULL,
-          `editing_user_name` varchar(250) DEFAULT NULL,
+          `editing_user_name` varchar(100) DEFAULT NULL,
           `last_editor_user_id` int(11) DEFAULT NULL,
-          `last_editor_user_name` varchar(250) DEFAULT NULL,
+          `last_editor_user_name` varchar(100) DEFAULT NULL,
           `updated_at` datetime(6) NOT NULL,
           PRIMARY KEY (`id`),
           UNIQUE KEY `dag_name` (`dag_name`),
@@ -53,12 +53,12 @@ def run_version_0_0_1():
         CREATE TABLE IF NOT EXISTS `dcmp_dag_conf` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `dag_id` int(11) NOT NULL,
-          `dag_name` varchar(250) NOT NULL,
+          `dag_name` varchar(100) NOT NULL,
           `action` varchar(50) NOT NULL,
           `version` int(11) NOT NULL,
           `conf` text NOT NULL,
           `creator_user_id` int(11) DEFAULT NULL,
-          `creator_user_name` varchar(250) DEFAULT NULL,
+          `creator_user_name` varchar(100) DEFAULT NULL,
           `created_at` datetime(6) NOT NULL,
           PRIMARY KEY (`id`),
           KEY `dag_id` (`dag_id`),
@@ -106,12 +106,12 @@ def run_version_0_2_1():
     run_sql("ALTER TABLE dcmp_dag ADD approved_version int(11) NOT NULL;", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag ADD INDEX approved_version (approved_version);", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag ADD approver_user_id int(11) DEFAULT NULL;", ignore_error=True)
-    run_sql("ALTER TABLE dcmp_dag ADD approver_user_name varchar(250) DEFAULT NULL;", ignore_error=True)
+    run_sql("ALTER TABLE dcmp_dag ADD approver_user_name varchar(100) DEFAULT NULL;", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag ADD last_approved_at datetime(6);", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag ADD INDEX last_approved_at (last_approved_at);", ignore_error=True)
 
     run_sql("ALTER TABLE dcmp_dag_conf ADD approver_user_id int(11) DEFAULT NULL;", ignore_error=True)
-    run_sql("ALTER TABLE dcmp_dag_conf ADD approver_user_name varchar(250) DEFAULT NULL;", ignore_error=True)
+    run_sql("ALTER TABLE dcmp_dag_conf ADD approver_user_name varchar(100) DEFAULT NULL;", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag_conf ADD approved_at datetime(6);", ignore_error=True)
     run_sql("ALTER TABLE dcmp_dag_conf ADD INDEX approved_at (approved_at);", ignore_error=True)
     
