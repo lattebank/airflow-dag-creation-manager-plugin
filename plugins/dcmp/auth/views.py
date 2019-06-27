@@ -6,7 +6,8 @@ from airflow.plugins_manager import AirflowPlugin
 from airflow.www import utils as wwwutils
 from airflow.utils.db import provide_session
 from flask import Blueprint
-from flask_login import flash
+#from flask_login import flash
+from flask import flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.actions import action
 from wtforms import PasswordField

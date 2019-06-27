@@ -2,7 +2,8 @@
 
 import os
 import logging
-from StringIO import StringIO
+#from StringIO import StringIO
+import io
 
 from datetime import datetime
 from tempfile import NamedTemporaryFile
@@ -80,7 +81,7 @@ def search_conf_iter(search, conf, key=None, task_name=""):
 class LogStreamContext(object):
     def __init__(self, *args, **kwargs):
         super(LogStreamContext, self).__init__(*args, **kwargs)
-        self.stream = StringIO()
+        self.stream = io.StringIO()
         self.logger = logging.getLogger()
         self.handler = logging.StreamHandler(self.stream)
         self.handler.setFormatter(logging.Formatter(settings.SIMPLE_LOG_FORMAT))

@@ -17,14 +17,14 @@ def get_mysql_hook():
 
 def run_sql(sql, ignore_error=False):
     hook = get_mysql_hook()
-    print "sql:\n%s" % sql
+    print ("sql:\n%s" % sql)
     try:
         res = hook.get_records(sql)
     except Exception as e:
         if not ignore_error:
             raise e
         res = None
-    print res
+    print (res)
     return res
 
 

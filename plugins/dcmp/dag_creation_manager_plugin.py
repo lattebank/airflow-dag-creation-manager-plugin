@@ -76,7 +76,7 @@ def pygment_html_render(s, lexer=lexers.TextLexer):
 
 def render(obj, lexer):
     out = ""
-    if isinstance(obj, basestring):
+    if isinstance(obj, str):
         out += pygment_html_render(obj, lexer)
     elif isinstance(obj, (tuple, list)):
         for i, s in enumerate(obj):
@@ -124,7 +124,8 @@ class RequestArgsFilter(object):
     def refresh_filter_arg_dict(self):
         filter_arg_dict = OrderedDict(self.arg_tuple)
         index = 0
-        for filter_arg, filter_params in filter_arg_dict.iteritems():
+        #for filter_arg, filter_params in filter_arg_dict.iteritems():
+        for filter_arg, filter_params in filter_arg_dict.items():
             for filter_operation in filter_params["operations"]:
                 filter_params["index"] = index
                 index += 1
@@ -132,7 +133,7 @@ class RequestArgsFilter(object):
 
     def refresh_filter_groups(self):
         filter_groups = OrderedDict()
-        for filter_arg, filter_params in self.filter_arg_dict.iteritems():
+        for filter_arg, filter_params in self.filter_arg_dict.items():
             for filter_operation in filter_params["operations"]:
                 filter_groups[filter_arg] = [{
                     "index" : filter_params["index"],
@@ -483,7 +484,7 @@ class DagCreationManager(BaseView):
                 data = dag_converter.clean_dag_dict(data, strict=True)
             except Exception as e:
                 logging.exception("api.update_dag")
-                return jsonify({"code": -2, "detail": e.message, })
+                return jsonify({"code": -2, "detail": str(e), })
             new_dag_name = data["dag_name"]
             if new_dag_name != dag_name:
                 if dag_name and not can_access_approver():
@@ -556,7 +557,7 @@ class DagCreationManager(BaseView):
                 ti = dag_converter.create_task_instance_by_task_conf(data)
             except Exception as e:
                 logging.exception("api.render_task_conf")
-                return jsonify({"code": -2, "detail": e.message, })
+                return jsonify({"code": -2, "detail": str(e), })
             res = self.render_ti(ti, result_format=request.args.get("format", None))
             return jsonify({"code": 0, "detail": res, })
         elif api == "dry_run_task_conf":
@@ -565,7 +566,7 @@ class DagCreationManager(BaseView):
                 ti = dag_converter.create_task_instance_by_task_conf(data)
             except Exception as e:
                 logging.exception("api.dry_run_task_conf")
-                return jsonify({"code": -2, "detail": e.message, })
+                return jsonify({"code": -2, "detail": str(e), })
             rendered = self.render_ti(ti, result_format=request.args.get("format", None))
             with LogStreamContext() as stream:
                 ti.dry_run()
@@ -590,7 +591,7 @@ class DagCreationManager(BaseView):
             res[template_field] = {"code": getattr(ti.task, template_field)}
         if result_format == "html":
             from airflow.www.views import attr_renderer # can not load views when airflow loads plugins.
-            for template_field, content in res.iteritems():
+            for template_field, content in res.items():
                 if template_field in attr_renderer:
                     content["html"] = attr_renderer[template_field](content["code"])
                 else:
